@@ -1,64 +1,91 @@
-# Kafko — Android UI prototype
+# Kafko — mobile UI
 
-Interactive design prototype of the **Kafko** mobile app (learn languages with music).
-This folder currently covers the **home screen** only.
+Interactive design prototype of **Kafko** — learn languages with music.
+This folder covers the **home screen** at production fidelity (markup, styles, motion, state).
 
 ```
 android-ui/
-├── index.html          markup + screen shell (status bar, dock, toast)
-├── styles.css          design tokens + all component styles + animations
-├── app.js              mock data, rendering, interaction layer
+├── index.html      screen shell: status bar · app bar · pinned filters · dock · toast
+├── styles.css      design tokens + components + motion (commented by section)
+├── app.js          content model, rendering, interaction state
 └── assets/
-    ├── artists/        artist portraits (story row)
-    ├── covers/         album artwork (song cards)
-    ├── flags/          country flags as SVG, 1:1, for the round chips
-    └── fonts/          Plus Jakarta Sans (variable, latin + latin-ext), self-hosted
+    ├── artists/    artist portraits (story row)
+    ├── covers/     album artwork
+    ├── flags/      country flags, 1:1 SVG for the round chips
+    └── fonts/      Plus Jakarta Sans (variable, latin + latin-ext), self-hosted
 ```
 
 ## Run
 
-No build step — it is plain HTML/CSS/JS.
+No build step.
 
 ```bash
 python3 -m http.server 8080 --bind 0.0.0.0 --directory android-ui
-# then open http://localhost:8080
+# open http://localhost:8080
 ```
 
-Opening `index.html` directly from disk also works, because every asset is local.
+Every asset is local, so opening `index.html` from disk works too.
 
 ## Screen anatomy
 
-| Area | Notes |
-| --- | --- |
-| App bar | brand mark + name, sticky, frosted when content scrolls under it |
-| Artists | story-style ring row, flag badge on each avatar, **See all** expands the row in place |
-| Filters | sticky circular language chips: All + 9 languages |
-| Songs | cover (flag on the corner), title, artist, Free/Premium badge, play/equaliser state |
-| Dock | floating pure-green bar, Home / Leitner / Profile with a sliding white pill |
-| Toast | feedback for the wires the real app will replace (playback, artist tap) |
+**Sky** — tinted green background with two slow-drifting light blobs (fixed behind the
+scroller, so nothing slides with the content).
+
+**App bar** (pinned) — brand mark, search, learning streak. Compacts on scroll: the mark and
+title shrink, the tagline collapses, so the header costs ~30px less once you start reading.
+The sticky filter strip is positioned from the app bar's real measured height
+(`ResizeObserver` → `--sticky-top`), so the pin is exact at any state.
+
+**Artists** — story-style rings: animated gradient for unseen artists, flag badge for the
+language they sing in, **See all** expands the row in place (FLIP-measured height).
+
+**Browse by language** (pinned) — circular flag chips; compacting to flags-only on scroll.
+
+**Continue learning** (hero) — picks the most advanced unfinished song of the current filter,
+shows coverage (`24 / 38 phrases`), level, language and a progress bar. Dissolves away when the
+active language has no in-progress song.
+
+**Song sheet** — white rounded sheet over the tinted sky. Each card carries cover art with the
+language flag on the corner, title, artist, and a metadata row: CEFR level (`A1…B2`),
+phrase count, and Free / Premium. Cards already started show a learning-progress bar.
+Playing a card swaps the badge for a live equaliser.
+
+**Dock** (floating, pure green) — Home / Leitner / Profile with a sliding white pill and a
+**5** due-cards badge. Centred, clear of every edge.
 
 ## Design tokens
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--bg` | `#F3FAF5` | screen background (white with a green cast) |
-| `--green` | `#00A94F` | dock, accents, active states |
-| `--ink` / `--ink-2` / `--ink-3` | `#0B1F14` / `#5E7D6C` / `#93AF9F` | text hierarchy |
-| `--r-lg` | `20px` | card radius |
-| font | Plus Jakarta Sans | 200–800 variable |
+| `--bg` | `#EDF7F0` | sky (green-tinted, not flat white) |
+| `--surface` | `#FFFFFF` | sheet and cards |
+| `--green` | `#00A94F` | brand, dock, active states |
+| `--ink` / `--ink-2` / `--ink-3` | `#08190F` / `#55705F` / `#8CA79A` | text hierarchy |
+| `--amber` | `#B4740A` | Premium + streak |
+| `--r-card` / `--r-sheet` | `20px` / `30px` | corners |
+| `--sh-hero` / `--sh-dock` | green-tinted shadows | depth without grey haze |
 
-Film-level details that matter: 1px hairline borders on cards, `52px` covers, `36px` play
-buttons (thumb-friendly for kids and adults), `cubic-bezier(.34,1.42,.48,1)` spring easing,
-and `prefers-reduced-motion` support.
+Motion: springs at `cubic-bezier(.34,1.42,.48,1)` for anything touchable, `rise` for list
+entrances with a 34ms stagger, bar-grow for progress, drifting ambience at 24–29s, and full
+`prefers-reduced-motion` support.
 
-## Behaviour in the prototype
+## Interactions in the prototype
 
-* Tapping a language chip filters the list in place (`--i` drives the stagger animation).
-* Tapping a song card toggles the play state (equaliser replaces the badge).
-* Tapping an artist highlights the ring and clears its "new" gradient.
-* Tapping a dock item slides the pill; Leitner/Profile only tell you they are coming.
+| Action | Result |
+| --- | --- |
+| Scroll | app bar + filters compact and stay pinned, frost saturates |
+| Language chip | list and hero re-render for that language, toast-free |
+| Song card | play/pause state, equaliser, hero stays in sync |
+| Hero play | same state as the matching card |
+| Artist | ring highlights, "new" gradient cleared |
+| Dock item | pill slides; Leitner reports due cards, Profile says coming soon |
+| Search | wired to a toast placeholder |
 
 ## Phone sizing
 
-The prototype is laid out at real phone proportions (393 × 852). On a desktop browser it is
-shown inside a device frame; below `640px` wide it becomes a full-screen app.
+Laid out at real phone proportions (393 × 852). On desktop it renders inside a device frame;
+below 640px wide it becomes a full-screen app. Below 372px the phrase count drops out first.
+
+## Next screens
+
+`Leitner` (flashcard review) and `Profile` are nav stubs — ready to be designed.

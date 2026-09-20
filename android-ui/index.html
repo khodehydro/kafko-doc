@@ -18,22 +18,25 @@
     <span class="device__btn device__btn--pwr" aria-hidden="true"></span>
 
     <div class="screen">
-      <div class="screen__glow" aria-hidden="true"></div>
+      <div class="screen__ambient" aria-hidden="true">
+        <span class="amb amb--a"></span>
+        <span class="amb amb--b"></span>
+      </div>
 
       <!-- ============================= status bar ============================= -->
       <div class="statusbar" aria-hidden="true">
         <span class="statusbar__time">9:41</span>
         <span class="statusbar__icons">
-          <svg viewBox="0 0 18 12"><rect x="0"  y="7.4" width="3" height="4.6" rx="1.2"/><rect x="4.4" y="5.3" width="3" height="6.7" rx="1.2"/><rect x="8.8" y="3" width="3" height="9" rx="1.2"/><rect x="13.2" y="0.6" width="3" height="11.4" rx="1.2"/></svg>
+          <svg viewBox="0 0 18 12"><rect x="0" y="7.4" width="3" height="4.6" rx="1.2"/><rect x="4.4" y="5.3" width="3" height="6.7" rx="1.2"/><rect x="8.8" y="3" width="3" height="9" rx="1.2"/><rect x="13.2" y=".6" width="3" height="11.4" rx="1.2"/></svg>
           <svg viewBox="0 0 17 12"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M1.2 4.4a10.4 10.4 0 0 1 14.6 0"/><path d="M4 7.1a6.4 6.4 0 0 1 9 0"/></g><circle cx="8.5" cy="10.2" r="1.7"/></svg>
-          <svg viewBox="0 0 26 12"><rect x="0.7" y="1" width="21" height="10" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".4"/><rect x="2.6" y="2.9" width="14.4" height="6.2" rx="2"/><path d="M23.6 4.2v3.6a2 2 0 0 0 0-3.6z" opacity=".4"/></svg>
+          <svg viewBox="0 0 26 12"><rect x=".7" y="1" width="21" height="10" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".4"/><rect x="2.6" y="2.9" width="14.4" height="6.2" rx="2"/><path d="M23.6 4.2v3.6a2 2 0 0 0 0-3.6z" opacity=".4"/></svg>
         </span>
       </div>
 
-      <!-- ============================== content =============================== -->
+      <!-- ================================ content ============================= -->
       <main class="scroll" id="scroll">
 
-        <!-- app bar -->
+        <!-- app bar (pinned) -->
         <header class="appbar frost" id="appbar">
           <div class="brand">
             <span class="brand__mark" aria-hidden="true">
@@ -44,34 +47,49 @@
               <span class="brand__tag">Learn languages with music</span>
             </span>
           </div>
+
+          <div class="appbar__actions">
+            <button class="iconbtn" type="button" id="searchBtn" aria-label="Search songs">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.9 15.9 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <span class="streak" title="Learning streak">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.6 2.4c.4 3-1.3 4.3-2.6 5.7C8.4 9.8 7 11 7 14a5.6 5.6 0 0 0 11.2 0c0-2.2-.9-4-2.2-5.6-.3 1.3-1.1 2.1-2 2.4.9-3.2-.4-6.5-1.4-8.4z" fill="currentColor"/></svg>
+              <b>12</b>
+            </span>
+          </div>
         </header>
 
         <!-- artists -->
         <section class="stories" aria-label="Artists">
+          <div class="section-head"><span>Popular artists</span></div>
           <div class="stories__track" id="storyTrack" tabindex="0"></div>
         </section>
 
-        <!-- language filter -->
-        <section class="filters frost" id="filtersBar" aria-label="Filter by language">
+        <!-- language filter (pinned) -->
+        <div class="section-head section-head--filters"><span>Browse by language</span></div>
+        <section class="filters frost" id="filtersBar" aria-label="Filter songs by language">
           <div class="filters__track" id="filters" role="tablist"></div>
         </section>
 
-        <!-- songs -->
-        <section class="songs" aria-label="Songs">
-          <div class="songs__head">
-            <h2 class="songs__title" id="songsTitle">All songs</h2>
-            <span class="songs__count" id="songsCount"></span>
-            <button class="songs__reset" id="resetFilter" type="button" hidden>
+        <!-- hero: continue learning -->
+        <section class="hero" id="hero" aria-label="Continue learning"></section>
+
+        <!-- song list -->
+        <section class="sheet">
+          <div class="sheet__head">
+            <h2 class="sheet__title" id="songsTitle">All songs</h2>
+            <span class="sheet__count" id="songsCount">12</span>
+            <button class="sheet__reset" id="resetFilter" type="button" hidden>
               Clear
-              <svg viewBox="0 0 24 24"><path d="M7.5 7.5l9 9m0-9l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 7.5l9 9m0-9l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
             </button>
           </div>
-          <ul class="songs__list" id="songList"></ul>
+          <ul class="songs" id="songList"></ul>
         </section>
 
       </main>
 
-      <!-- =============================== dock ================================ -->
+      <!-- ================================= dock ============================== -->
       <nav class="dock" id="dock" aria-label="Main navigation">
         <span class="dock__pill" id="dockPill" aria-hidden="true"></span>
 
@@ -81,8 +99,9 @@
         </button>
 
         <button class="dock__item" type="button" data-tab="leitner">
-          <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><rect x="3.7" y="9.6" width="16.6" height="10.2" rx="3.1"/><path d="M7.2 6.4h9.6M8.6 3.4h6.8" /></g></svg>
+          <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><rect x="3.7" y="9.6" width="16.6" height="10.2" rx="3.1"/><path d="M7.2 6.4h9.6M8.6 3.4h6.8"/></g></svg>
           <span>Leitner</span>
+          <i class="dock__badge" id="dueBadge">5</i>
         </button>
 
         <button class="dock__item" type="button" data-tab="profile">
