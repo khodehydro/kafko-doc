@@ -5,39 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#00A94F">
 <title>Kafko — Learn languages with music</title>
-<meta name="description" content="Kafko mobile app UI — home screen design prototype (HTML / CSS / JS).">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap">
+
+<link rel="preload" href="assets/fonts/plus-jakarta-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/artists/art-1.jpg" as="image">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <div class="stage">
-  <div class="phone">
-    <span class="phone__side phone__side--vol" aria-hidden="true"></span>
-    <span class="phone__side phone__side--pwr" aria-hidden="true"></span>
+  <div class="device">
+    <span class="device__btn device__btn--vol" aria-hidden="true"></span>
+    <span class="device__btn device__btn--pwr" aria-hidden="true"></span>
 
     <div class="screen">
+      <div class="screen__glow" aria-hidden="true"></div>
 
-      <!-- ============ status bar ============ -->
+      <!-- ============================= status bar ============================= -->
       <div class="statusbar" aria-hidden="true">
         <span class="statusbar__time">9:41</span>
-        <span class="statusbar__cam"></span>
         <span class="statusbar__icons">
-          <svg class="ic" viewBox="0 0 15 11"><rect x="0" y="6.6" width="2.6" height="4.4" rx="1.1" fill="currentColor"/><rect x="4" y="4.4" width="2.6" height="6.6" rx="1.1" fill="currentColor"/><rect x="8" y="2.2" width="2.6" height="8.8" rx="1.1" fill="currentColor"/><rect x="12" y="0" width="2.6" height="11" rx="1.1" fill="currentColor"/></svg>
-          <svg class="ic" viewBox="0 0 16 12"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M1.1 4.3a9.8 9.8 0 0 1 13.8 0"/><path d="M3.7 7a6.1 6.1 0 0 1 8.6 0"/></g><circle cx="8" cy="10.1" r="1.6" fill="currentColor"/></svg>
-          <svg class="ic" viewBox="0 0 19 12"><rect x="0.6" y="1.6" width="15.2" height="9.4" rx="2.8" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/><rect x="2.5" y="3.5" width="9.6" height="5.6" rx="1.6" fill="currentColor"/><rect x="16.9" y="4.4" width="1.7" height="3.6" rx=".85" fill="currentColor" opacity=".45"/></svg>
+          <svg viewBox="0 0 18 12"><rect x="0"  y="7.4" width="3" height="4.6" rx="1.2"/><rect x="4.4" y="5.3" width="3" height="6.7" rx="1.2"/><rect x="8.8" y="3" width="3" height="9" rx="1.2"/><rect x="13.2" y="0.6" width="3" height="11.4" rx="1.2"/></svg>
+          <svg viewBox="0 0 17 12"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M1.2 4.4a10.4 10.4 0 0 1 14.6 0"/><path d="M4 7.1a6.4 6.4 0 0 1 9 0"/></g><circle cx="8.5" cy="10.2" r="1.7"/></svg>
+          <svg viewBox="0 0 26 12"><rect x="0.7" y="1" width="21" height="10" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".4"/><rect x="2.6" y="2.9" width="14.4" height="6.2" rx="2"/><path d="M23.6 4.2v3.6a2 2 0 0 0 0-3.6z" opacity=".4"/></svg>
         </span>
       </div>
 
-      <!-- ============ home screen ============ -->
-      <main class="app" id="app">
+      <!-- ============================== content =============================== -->
+      <main class="scroll" id="scroll">
 
-        <header class="app-header">
+        <!-- app bar -->
+        <header class="appbar frost" id="appbar">
           <div class="brand">
             <span class="brand__mark" aria-hidden="true">
-              <svg class="ic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17.4V6.3l10-2.1"/><circle cx="6.3" cy="17.5" r="2.7"/><circle cx="16.3" cy="15.4" r="2.7"/></g></svg>
+              <svg viewBox="0 0 24 24"><path d="M9.2 17.6V6.4l10.2-2.1" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.4" cy="17.7" r="2.8"/><circle cx="16.6" cy="15.6" r="2.8"/></svg>
             </span>
             <span class="brand__text">
               <span class="brand__name">Kafko</span>
@@ -46,145 +46,55 @@
           </div>
         </header>
 
-        <!-- singers (story style) -->
+        <!-- artists -->
         <section class="stories" aria-label="Artists">
-          <div class="stories__track" id="storyTrack"></div>
+          <div class="stories__track" id="storyTrack" tabindex="0"></div>
         </section>
 
         <!-- language filter -->
-        <section class="filters" aria-label="Filter songs by language">
-          <div class="filters__track" id="filters"></div>
+        <section class="filters frost" id="filtersBar" aria-label="Filter by language">
+          <div class="filters__track" id="filters" role="tablist"></div>
         </section>
 
-        <!-- song list -->
+        <!-- songs -->
         <section class="songs" aria-label="Songs">
           <div class="songs__head">
             <h2 class="songs__title" id="songsTitle">All songs</h2>
             <span class="songs__count" id="songsCount"></span>
-            <button class="songs__clear" id="clearFilter" type="button" hidden>Clear</button>
+            <button class="songs__reset" id="resetFilter" type="button" hidden>
+              Clear
+              <svg viewBox="0 0 24 24"><path d="M7.5 7.5l9 9m0-9l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            </button>
           </div>
           <ul class="songs__list" id="songList"></ul>
         </section>
 
       </main>
 
-      <!-- ============ floating nav ============ -->
-      <nav class="dock" id="dock" aria-label="Main">
+      <!-- =============================== dock ================================ -->
+      <nav class="dock" id="dock" aria-label="Main navigation">
         <span class="dock__pill" id="dockPill" aria-hidden="true"></span>
 
         <button class="dock__item is-active" type="button" data-tab="home" aria-current="page">
-          <svg class="ic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.6 12 3.8l8.5 6.8V19a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z"/><path d="M9.6 20.4v-5.6h4.8v5.6"/></g></svg>
+          <svg viewBox="0 0 24 24"><path d="M3.6 10.7 12 4l8.4 6.7V19a1.6 1.6 0 0 1-1.6 1.6H5.2A1.6 1.6 0 0 1 3.6 19z" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.7 20.5v-5.4h4.6v5.4" fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span>Home</span>
         </button>
 
         <button class="dock__item" type="button" data-tab="leitner">
-          <svg class="ic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="9.4" width="16.8" height="10.4" rx="3.2"/><rect x="7" y="4.6" width="10" height="5.4" rx="2.4"/></g></svg>
+          <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><rect x="3.7" y="9.6" width="16.6" height="10.2" rx="3.1"/><path d="M7.2 6.4h9.6M8.6 3.4h6.8" /></g></svg>
           <span>Leitner</span>
         </button>
 
         <button class="dock__item" type="button" data-tab="profile">
-          <svg class="ic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.6"/><path d="M4.8 20.2c1.3-3.5 4.1-5.4 7.2-5.4s5.9 1.9 7.2 5.4"/></g></svg>
+          <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.95" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.3" r="3.7"/><path d="M4.9 20.3c1.3-3.5 4-5.4 7.1-5.4s5.8 1.9 7.1 5.4"/></g></svg>
           <span>Profile</span>
         </button>
       </nav>
 
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
     </div>
   </div>
 </div>
-
-<!-- ================= icon + flag sprite ================= -->
-<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-
-  <defs>
-    <g id="tg-bars">
-      <rect x="9" y="3.6" width="14" height="1.9" rx=".95"/>
-      <rect x="9" y="7.1" width="14" height="1.9" rx=".95"/>
-      <rect x="9" y="10.6" width="14" height="1.9" rx=".95"/>
-    </g>
-  </defs>
-
-  <!-- ui icons -->
-  <symbol id="ic-play" viewBox="0 0 24 24"><path d="M8.2 5.4a1 1 0 0 1 1.53-.85l9.2 6.06a1.1 1.1 0 0 1 0 1.83l-9.2 6.06a1 1 0 0 1-1.53-.85z" fill="currentColor"/></symbol>
-  <symbol id="ic-pause" viewBox="0 0 24 24"><rect x="7.4" y="5.2" width="3.7" height="13.6" rx="1.7" fill="currentColor"/><rect x="12.9" y="5.2" width="3.7" height="13.6" rx="1.7" fill="currentColor"/></symbol>
-  <symbol id="ic-crown" viewBox="0 0 24 24"><path d="M3.6 18.4 2.2 7.2l4.9 3.2L12 4.2l4.9 6.2 4.9-3.2-1.4 11.2z" fill="currentColor"/></symbol>
-  <symbol id="ic-grid" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3.4" y="3.4" width="7.6" height="7.6" rx="2.4"/><rect x="13" y="3.4" width="7.6" height="7.6" rx="2.4"/><rect x="3.4" y="13" width="7.6" height="7.6" rx="2.4"/><rect x="13" y="13" width="7.6" height="7.6" rx="2.4"/></g></symbol>
-  <symbol id="ic-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M3.4 12h17.2"/><path d="M12 3.4c2.3 2.4 3.4 5.4 3.4 8.6S14.3 18.2 12 20.6c-2.3-2.4-3.4-5.4-3.4-8.6S9.7 5.8 12 3.4z"/></g></symbol>
-
-  <!-- flags (32x32, drawn to be read inside a circle) -->
-  <symbol id="f-en" viewBox="0 0 32 32">
-    <rect width="32" height="32" fill="#f7f9fb"/>
-    <g fill="#C8102E">
-      <rect y="0" width="32" height="2.46"/><rect y="4.92" width="32" height="2.46"/><rect y="9.85" width="32" height="2.46"/>
-      <rect y="14.77" width="32" height="2.46"/><rect y="19.69" width="32" height="2.46"/><rect y="24.62" width="32" height="2.46"/>
-      <rect y="29.54" width="32" height="2.46"/>
-    </g>
-    <rect width="13.6" height="17.2" fill="#3C3B6E"/>
-    <g fill="#fff">
-      <circle cx="2.5" cy="2.7" r=".85"/><circle cx="6.7" cy="2.7" r=".85"/><circle cx="10.9" cy="2.7" r=".85"/>
-      <circle cx="4.6" cy="6" r=".85"/><circle cx="8.8" cy="6" r=".85"/>
-      <circle cx="2.5" cy="9.3" r=".85"/><circle cx="6.7" cy="9.3" r=".85"/><circle cx="10.9" cy="9.3" r=".85"/>
-      <circle cx="4.6" cy="12.6" r=".85"/><circle cx="8.8" cy="12.6" r=".85"/>
-      <circle cx="2.5" cy="15.6" r=".85"/><circle cx="6.7" cy="15.6" r=".85"/><circle cx="10.9" cy="15.6" r=".85"/>
-    </g>
-  </symbol>
-
-  <symbol id="f-ko" viewBox="0 0 32 32">
-    <rect width="32" height="32" fill="#fff"/>
-    <circle cx="16" cy="16" r="7" fill="#0047A0"/>
-    <path d="M9 16a7 7 0 0 1 14 0 3.5 3.5 0 0 0-7 0 3.5 3.5 0 0 1-7 0z" fill="#CD2E3A"/>
-    <g fill="#0B0B0B">
-      <use href="#tg-bars" transform="rotate(-45 16 16)"/>
-      <use href="#tg-bars" transform="rotate(135 16 16)"/>
-      <g transform="rotate(45 16 16)"><rect x="9" y="3.6" width="14" height="1.9" rx=".95"/><rect x="9" y="9.2" width="14" height="1.9" rx=".95"/></g>
-      <g transform="rotate(-135 16 16)"><rect x="9" y="3.6" width="14" height="1.9" rx=".95"/><rect x="9" y="9.2" width="14" height="1.9" rx=".95"/></g>
-    </g>
-  </symbol>
-
-  <symbol id="f-es" viewBox="0 0 32 32">
-    <rect width="32" height="32" fill="#AA151B"/>
-    <rect y="8" width="32" height="16" fill="#F1BF00"/>
-    <rect x="7.2" y="12.6" width="3.4" height="4.8" rx="1.2" fill="#AD1519" opacity=".8"/>
-  </symbol>
-
-  <symbol id="f-tr" viewBox="0 0 32 32">
-    <rect width="32" height="32" fill="#E30A17"/>
-    <circle cx="14" cy="16" r="7" fill="#fff"/>
-    <circle cx="16.5" cy="16" r="5.7" fill="#E30A17"/>
-    <polygon fill="#fff" points="22.5,12.8 23.26,14.95 25.54,15.01 23.74,16.4 24.38,18.59 22.5,17.3 20.62,18.59 21.26,16.4 19.46,15.01 21.74,14.95"/>
-  </symbol>
-
-  <symbol id="f-fr" viewBox="0 0 32 32">
-    <rect width="10.67" height="32" fill="#002395"/>
-    <rect x="10.67" width="10.67" height="32" fill="#fff"/>
-    <rect x="21.33" width="10.67" height="32" fill="#ED2939"/>
-  </symbol>
-
-  <symbol id="f-de" viewBox="0 0 32 32">
-    <rect width="32" height="10.67" fill="#111"/>
-    <rect y="10.67" width="32" height="10.67" fill="#DD0000"/>
-    <rect y="21.33" width="32" height="10.67" fill="#FFCE00"/>
-  </symbol>
-
-  <symbol id="f-jp" viewBox="0 0 32 32">
-    <rect width="32" height="32" fill="#fff"/>
-    <circle cx="16" cy="16" r="8.6" fill="#BC002D"/>
-  </symbol>
-
-  <symbol id="f-it" viewBox="0 0 32 32">
-    <rect width="10.67" height="32" fill="#008C45"/>
-    <rect x="10.67" width="10.67" height="32" fill="#fff"/>
-    <rect x="21.33" width="10.67" height="32" fill="#CD212A"/>
-  </symbol>
-
-  <symbol id="f-br" viewBox="0 0 32 32">
-    <rect width="32" height="32" fill="#009C3B"/>
-    <path d="M16 4.6 27.4 16 16 27.4 4.6 16z" fill="#FFDF00"/>
-    <circle cx="16" cy="16" r="5.4" fill="#002776"/>
-    <path d="M11.3 14.4a11.6 11.6 0 0 1 9.4-1.1" fill="none" stroke="#fff" stroke-width="1.2" opacity=".9"/>
-  </symbol>
-</svg>
 
 <script src="app.js"></script>
 </body>
